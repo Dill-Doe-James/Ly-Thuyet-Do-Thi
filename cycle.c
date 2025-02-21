@@ -19,9 +19,10 @@ void init_graph(Graph *G,int n){
 	G->m = 0;
 }
 void add_edge(Graph *G, int u, int v){
-	G->A[u][v]=1;
-	G->A[v][u]=1;
+	G->A[u][v]++;
+	G->A[v][u]++;
 	G->m++;
+	
 }
 int adjacent(Graph *G, int u, int v){
 	return G->A[u][v]>0;
@@ -35,30 +36,30 @@ void DFS(Graph *G, int u,int p){
 	for(v=1;v<=G->n;v++){
 		if(adjacent(G,u,v)){
 			if(v==p) continue;
+			if(G->A[u][v]==2) has_circle=1;
 			if(color[v] == WHITE)
 				DFS(G,v,u);
 			else if(color[v] == GRAY)
-				has_circle = 1;
+				has_circle = 1;	
 		}
 	}
 	color[u] = BLACK;
 }
 
 int main(){
-	freopen("dt.txt", "r", stdin); //Khi n?p b‡i nh? b? dÚng n‡y.
+	freopen("dt.txt", "r", stdin); //Khi n?p b√†i nh? b? d√≤ng n√†y.
 	Graph G;
 	int n, m, u, v, e;
 	scanf("%d%d", &n, &m);
-	init_graph(&G, n);
-	
+	init_graph(&G, n);	
 	for (e = 0; e < m; e++) {
 		scanf("%d%d", &u, &v);
 		add_edge(&G, u, v);
 	}
 	has_circle = 0;
-//	for(u=1;u<=G.n;u++){
-//		color[u] == WHITE;		
-//	}
+	for(u=1;u<=G.n;u++){
+		color[u] == WHITE;		
+	}
 	for(u=1;u<=G.n;u++){
 		if(color[u] == WHITE){
 			DFS(&G,u,-1);
@@ -67,6 +68,3 @@ int main(){
 	if(has_circle==1) printf("YES");
 	else printf("NO");
 }
-
-
-
